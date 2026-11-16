@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hilton Game's Official</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    color:white;
+    text-align:center;
+}
+
+header{
+    padding:30px;
+}
+
+h1{
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+p{
+    color:#cbd5e1;
+}
+
+.hero{
+    margin-top:80px;
+}
+
+.search-container{
+    max-width:700px;
+    margin:30px auto;
+}
+
+.search-box{
+    display:flex;
+    background:white;
+    border-radius:50px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.3);
+}
+
+.search-box input{
+    flex:1;
+    padding:16px;
+    border:none;
+    outline:none;
+    font-size:16px;
+}
+
+.search-box button{
+    padding:16px 24px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.search-box button:hover{
+    background:#1d4ed8;
+}
+
+.games{
+    margin-top:80px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:12px;
+    width:220px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+footer{
+    margin-top:80px;
+    padding:20px;
+    color:#94a3b8;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Hilton Game's Official</h1>
+    <p>Your hub for games, tools, and entertainment</p>
+</header>
+
+<section class="hero">
+
+    <form id="proxySearch" class="search-container">
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search the web..."
+                required
+            >
+            <button type="submit">Search</button>
+        </div>
+    </form>
+
+</section>
+
+<section class="games">
+    <div class="card">
+        <h3>Popular Games</h3>
+        <p>Play the latest games instantly.</p>
+    </div>
+
+    <div class="card">
+        <h3>Updates</h3>
+        <p>Stay up to date with new releases.</p>
+    </div>
+
+    <div class="card">
+        <h3>Community</h3>
+        <p>Connect with other players.</p>
+    </div>
+</section>
+
+<footer>
+    © 2026 Hilton Game's Official
+</footer>
+
+<script>
+// REPLACE THIS URL WITH YOUR PROXY URL
+const proxyURL = "http://www.w3.org/2000/svg";
+
+document.getElementById("proxySearch").addEventListener("submit", e => {
+    e.preventDefault();
+
+    const query = document.getElementById("searchInput").value.trim();
+
+    if(query){
+        window.location.href =
+            proxyURL + encodeURIComponent(query);
+    }
+});
+</script>
+
+</body>
+</html>

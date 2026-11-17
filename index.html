@@ -3,205 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hilton Game's Official</title>
-
+<title>Hilton Games Official</title>
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-body{
-    background:linear-gradient(135deg,#0f172a,#1e293b);
-    color:white;
-    text-align:center;
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    text-align: center;
 }
 
-header{
-    padding:30px;
+header {
+    padding: 30px;
 }
 
-h1{
-    font-size:3rem;
-    margin-bottom:10px;
+h1 {
+    font-size: clamp(2rem, 8vw, 3rem);
+    margin-bottom: 10px;
 }
 
-p{
-    color:#cbd5e1;
+p {
+    color: #cbd5e1;
+    line-height: 1.5;
 }
 
-.hero{
-    margin-top:80px;
+.hero {
+    margin: 80px 16px 0;
 }
 
-.search-container{
-    max-width:700px;
-    margin:30px auto;
+.search-container {
+    max-width: 700px;
+    margin: 30px auto;
 }
 
-.search-box{
-    display:flex;
-    background:white;
-    border-radius:50px;
-    overflow:hidden;
-    box-shadow:0 5px 20px rgba(0,0,0,.3);
+.search-box {
+    display: flex;
+    background: white;
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .3);
 }
 
-.search-box input{
-    flex:1;
-    padding:16px;
-    border:none;
-    outline:none;
-    font-size:16px;
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    padding: 16px 20px;
+    border: none;
+    outline: none;
+    font-size: 16px;
 }
 
-.search-box button{
-    padding:16px 24px;
-    border:none;
-    background:#2563eb;
-    color:white;
-    cursor:pointer;
-    font-weight:bold;
+.search-box button {
+    padding: 16px 24px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-.search-box button:hover{
-    background:#1d4ed8;
+.search-box button:hover,
+.search-box button:focus-visible {
+    background: #1d4ed8;
 }
 
-#searchResults{
-    display:none;
-    width:95%;
-    margin:40px auto;
-    background:#1e293b;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 5px 20px rgba(0,0,0,.3);
+.search-note {
+    font-size: .9rem;
 }
 
-#searchResults h2{
-    margin-bottom:15px;
+.games {
+    margin: 80px 16px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-#resultFrame{
-    width:100%;
-    height:900px;
-    border:none;
-    border-radius:12px;
-    background:white;
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    width: 220px;
+    transition: transform .3s;
 }
 
-.games{
-    margin-top:80px;
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    flex-wrap:wrap;
+.card:hover {
+    transform: translateY(-5px);
 }
 
-.card{
-    background:#1e293b;
-    padding:20px;
-    border-radius:12px;
-    width:220px;
-    transition:.3s;
+.card h2 {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
 }
 
-.card:hover{
-    transform:translateY(-5px);
+footer {
+    margin-top: 80px;
+    padding: 20px;
+    color: #94a3b8;
 }
 
-footer{
-    margin-top:80px;
-    padding:20px;
-    color:#94a3b8;
+@media (max-width: 480px) {
+    .search-box {
+        border-radius: 16px;
+    }
+
+    .search-box input {
+        padding: 14px;
+    }
+
+    .search-box button {
+        padding: 14px 16px;
+    }
 }
 </style>
 </head>
-
 <body>
-
 <header>
-    <h1>Hilton Game's Official</h1>
+    <h1>Hilton Games Official</h1>
     <p>Your hub for games, tools, and entertainment</p>
 </header>
 
-<section class="hero">
+<main>
+    <section class="hero" aria-labelledby="search-heading">
+        <h2 id="search-heading">Search the web</h2>
+        <form class="search-container" action="https://duckduckgo.com/" method="get" target="_blank">
+            <div class="search-box">
+                <input
+                    type="search"
+                    id="searchInput"
+                    name="q"
+                    placeholder="Search the web..."
+                    aria-label="Search the web"
+                    required>
+                <button type="submit">Search</button>
+            </div>
+        </form>
+        <p class="search-note">Search results open in a new tab. Search works on GitHub Pages without a server.</p>
+    </section>
 
-    <form id="proxySearch" class="search-container">
-        <div class="search-box">
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search the web..."
-                required>
-            <button type="submit">Search</button>
-        </div>
-    </form>
-
-</section>
-
-<section id="searchResults">
-    <h2>Search Results</h2>
-
-    <iframe
-        id="resultFrame">
-    </iframe>
-</section>
-
-<section class="games">
-    <div class="card">
-        <h3>Popular Games</h3>
-        <p>Play the latest games instantly.</p>
-    </div>
-
-    <div class="card">
-        <h3>Updates</h3>
-        <p>Stay up to date with new releases.</p>
-    </div>
-
-    <div class="card">
-        <h3>Community</h3>
-        <p>Connect with other players.</p>
-    </div>
-</section>
+    <section class="games" aria-label="Site information">
+        <article class="card">
+            <h2>Popular Games</h2>
+            <p>Play the latest games instantly.</p>
+        </article>
+        <article class="card">
+            <h2>Updates</h2>
+            <p>Stay up to date with new releases.</p>
+        </article>
+        <article class="card">
+            <h2>Community</h2>
+            <p>Connect with other players.</p>
+        </article>
+    </section>
+</main>
 
 <footer>
-    © 2026 Hilton Game's Official
+    © 2026 Hilton Games Official
 </footer>
-
-<script>
-
-const proxyURL = "/search?q=";
-
-document.getElementById("proxySearch").addEventListener("submit", function(e){
-
-    e.preventDefault();
-
-    const query =
-        document.getElementById("searchInput").value.trim();
-
-    if(!query) return;
-
-    const resultsSection =
-        document.getElementById("searchResults");
-
-    const resultFrame =
-        document.getElementById("resultFrame");
-
-    resultsSection.style.display = "block";
-
-    resultFrame.src =
-        proxyURL + encodeURIComponent(query);
-
-    resultsSection.scrollIntoView({
-        behavior:"smooth"
-    });
-
-});
-
-</script>
-
 </body>
 </html>

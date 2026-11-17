@@ -1,15 +1,14 @@
 # HiltonGames
 Hilton's official game site.
 
-This site is designed to work as a static GitHub Pages page. The search button opens DuckDuckGo in a new tab, so it works without a local backend or `/search` proxy.
+This site includes a full-screen in-page search experience. The frontend calls the local `/search` endpoint, which proxies DuckDuckGo and renders the results inside the site instead of opening a new browser tab.
 
-GitHub Pages URL:
-https://xpluzoyt.github.io/HiltonGames/
-
-Optional local Node server:
+Run locally:
 ```bash
 npm install
 npm start
 ```
 
-This local Express server is only for development and is not required for the live GitHub Pages site.
+Open http://localhost:3000
+
+GitHub Pages cannot run this backend route, so this full-screen search experience requires a Node host such as Render, Railway, or a VPS for the live site.

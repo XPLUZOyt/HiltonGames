@@ -91,6 +91,70 @@
     .card p {
       color: #cbd5e1;
     }
+    .full-screen-results {
+      position: fixed;
+      inset: 0;
+      display: none;
+      background: rgba(15, 23, 42, 0.92);
+      z-index: 1000;
+      padding: 20px;
+    }
+    .full-screen-results.visible {
+      display: block;
+    }
+    .results-panel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #f3f4f6;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .results-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0f172a;
+      color: white;
+      padding: 12px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .results-toolbar h2 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    .close-results {
+      border: none;
+      background: #ef4444;
+      color: white;
+      border-radius: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .results-iframe-wrap {
+      width: 100%;
+      height: calc(100% - 60px);
+      background: white;
+      overflow: auto;
+    }
+    .results-content {
+      width: 100%;
+      min-height: 100%;
+      background: white;
+      padding: 18px;
+      color: #111827;
+      font-family: Arial, sans-serif;
+      overflow: auto;
+    }
+    .results-content a {
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+    .results-content a:hover {
+      text-decoration: underline;
+    }
     footer {
       padding: 20px 16px 30px;
       color: #94a3b8;
@@ -104,6 +168,10 @@
       .search-box button {
         width: 100%;
       }
+      .results-toolbar {
+        flex-direction: column;
+        gap: 10px;
+      }
     }
   </style>
 </head>
@@ -115,13 +183,13 @@
 
   <main>
     <section class="hero">
-      <form class="search-container" action="https://duckduckgo.com/" method="get" target="_blank">
+      <form id="searchForm" class="search-container">
         <div class="search-box">
-          <input type="search" name="q" placeholder="Search the web..." aria-label="Search the web" required />
+          <input id="searchInput" type="search" placeholder="Search the web..." aria-label="Search the web" required />
           <button type="submit">Search</button>
         </div>
       </form>
-      <p class="search-note">This works on GitHub Pages without a backend proxy.</p>
+      <p class="search-note">Results open full screen inside the site.</p>
     </section>
 
     <section class="games" aria-label="Site categories">
@@ -140,6 +208,78 @@
     </section>
   </main>
 
+  <div id="resultsOverlay" class="full-screen-results" aria-live="polite">
+    <div class="results-panel">
+      <div class="results-toolbar">
+        <h2 id="resultsTitle">Search results</h2>
+        <button id="closeResults" class="close-results" type="button">Close</button>
+      </div>
+      <div class="results-iframe-wrap">
+        <div id="resultsContent" class="results-content"></div>
+      </div>
+    </div>
+  </div>
+
   <footer>© 2026 Hilton Games Official</footer>
+
+  <script>
+    const searchForm = document.getElementById("searchForm");
+    const searchInput = document.getElementById("searchInput");
+    const resultsOverlay = document.getElementById("resultsOverlay");
+    const resultsContent = document.getElementById("resultsContent");
+    const resultsTitle = document.getElementById("resultsTitle");
+    const closeResults = document.getElementById("closeResults");
+
+    async function loadSearchResults(query) {
+      resultsTitle.textContent = `Results for: ${query}`;
+      resultsContent.innerHTML = "<p>Loading results...</p>";
+      resultsOverlay.classList.add("visible");
+
+      try {
+        const response = await fetch(`/search?q=${encodeURIComponent(query)}`);
+
+        if (!response.ok) {
+          throw new Error("Search request failed");
+        }
+
+        const html = await response.text();
+        const doc = new DOMParser().parseFromString(html, "text/html");
+
+        const results = doc.querySelectorAll(".result, .result-link, .results .result") || [];
+        const bodyContent = doc.body.innerHTML || html;
+
+        if (results.length > 0) {
+          const container = document.createElement("div");
+          container.innerHTML = "";
+
+          results.forEach((result) => {
+            container.appendChild(result.cloneNode(true));
+          });
+
+          resultsContent.innerHTML = container.innerHTML;
+        } else {
+          resultsContent.innerHTML = bodyContent;
+        }
+      } catch (error) {
+        resultsContent.innerHTML = `
+          <div style="padding: 20px; color: #111827; font-family: Arial, sans-serif;">
+            <h3>Search unavailable</h3>
+            <p>The search proxy could not load the results.</p>
+          </div>
+        `;
+      }
+    }
+
+    searchForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const query = searchInput.value.trim();
+      if (!query) return;
+      await loadSearchResults(query);
+    });
+
+    closeResults.addEventListener("click", () => {
+      resultsOverlay.classList.remove("visible");
+    });
+  </script>
 </body>
 </html>

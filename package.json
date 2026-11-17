@@ -1,0 +1,18 @@
+{
+  "name": "hiltongames",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hilton Games website with an in-page search experience",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cheerio": "1.0.0",
+    "express": "^4.21.2",
+    "node-fetch": "^2.7.0"
+  }
+}

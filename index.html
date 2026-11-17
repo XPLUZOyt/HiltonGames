@@ -70,6 +70,28 @@ p{
     background:#1d4ed8;
 }
 
+#searchResults{
+    display:none;
+    width:95%;
+    margin:40px auto;
+    background:#1e293b;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 5px 20px rgba(0,0,0,.3);
+}
+
+#searchResults h2{
+    margin-bottom:15px;
+}
+
+#resultFrame{
+    width:100%;
+    height:900px;
+    border:none;
+    border-radius:12px;
+    background:white;
+}
+
 .games{
     margin-top:80px;
     display:flex;
@@ -113,12 +135,19 @@ footer{
                 type="text"
                 id="searchInput"
                 placeholder="Search the web..."
-                required
-            >
+                required>
             <button type="submit">Search</button>
         </div>
     </form>
 
+</section>
+
+<section id="searchResults">
+    <h2>Search Results</h2>
+
+    <iframe
+        id="resultFrame">
+    </iframe>
 </section>
 
 <section class="games">
@@ -143,19 +172,35 @@ footer{
 </footer>
 
 <script>
-// REPLACE THIS URL WITH YOUR PROXY URL
-const proxyURL = "http://www.w3.org/2000/svg";
 
-document.getElementById("proxySearch").addEventListener("submit", e => {
+const proxyURL = "/search?q=";
+
+document.getElementById("proxySearch").addEventListener("submit", function(e){
+
     e.preventDefault();
 
-    const query = document.getElementById("searchInput").value.trim();
+    const query =
+        document.getElementById("searchInput").value.trim();
 
-    if(query){
-        window.location.href =
-            proxyURL + encodeURIComponent(query);
-    }
+    if(!query) return;
+
+    const resultsSection =
+        document.getElementById("searchResults");
+
+    const resultFrame =
+        document.getElementById("resultFrame");
+
+    resultsSection.style.display = "block";
+
+    resultFrame.src =
+        proxyURL + encodeURIComponent(query);
+
+    resultsSection.scrollIntoView({
+        behavior:"smooth"
+    });
+
 });
+
 </script>
 
 </body>
